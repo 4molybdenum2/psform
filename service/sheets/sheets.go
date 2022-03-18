@@ -33,6 +33,7 @@ func ExportSheetsResponse(r fstore.Response) {
 	// get index of last entry in sheet
 	idx := len(sheet.Data.GridData[0].RowData)
 	log.Printf("index: %v", idx)
+
 	// update responses sheet
 	sheet.Update(int(idx), 0, r.Author)
 	sheet.Update(int(idx), 1, r.Address)

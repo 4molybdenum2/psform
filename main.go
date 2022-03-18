@@ -5,29 +5,27 @@ import (
 	"net/http"
 
 	"github.com/4molybdenum2/atlan-challenge/pkg/handler"
+	"github.com/4molybdenum2/atlan-challenge/pkg/kafka"
 	"github.com/gorilla/mux"
 )
 
-// Define Form type
-type Form struct {
-	Title string
-}
-
 func main() {
-	// set firestore client
+	// set kafka reader and writer
+	kafkaWriter := kafka.GetKafkaWriter()
+	defer kafkaWriter.Close()
+
+	kafkaReader := kafka.GetKafkaReader()
+	defer kafkaReader.Close()
 
 	// init router
-	router := mux.NewRouter()
+	r := mux.NewRouter()
 
 	// define endpoints
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		log.Println(w, "Server up and running...")
-	})
-	router.HandleFunc("/forms", handler.GetResponse).Methods("GET")
-	router.HandleFunc("/forms", handler.CreateResponse).Methods("POST")
+	r.Path("/forms").Handler(handler.GetResponse())
+	r.Path("/forms").Handler(handler.CreateResponse(kafkaWriter))
 
 	// listen on port 5000
 	const port = ":5000"
 	log.Println("Server listening on port : ", port)
-	log.Fatal(http.ListenAndServe(port, router))
+	log.Fatal(http.ListenAndServe(port, r))
 }
