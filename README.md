@@ -84,3 +84,7 @@ There are some limitations on the usage of Sheets API, which can hinder the perf
 
 - Rate limit for requests on Google Sheets API is 300 write requests per minute per project and 60 write requests per minute per user per project.
 - Free Google Account only gives 15 GB of storage. So we are dependent on the storage provided by our Google Drive Plans.
+
+## Problems Faced
+
+- Currently if we restart our server, the Sheets Service reconsumes all the previous messages from the Kafka Message Queue, leading to duplicate messages in Google Sheets. This can be fixed by updating rows by matching them with a specific email address (considering only one response is allowed). But this will need us to iterate over an entire spreadsheet which can be time-consuming and also take multiple writes to Sheets. We can also clear the entire spreadsheet when we close our server instance, but that will also require multiple writes to the Google Sheets (which can be rate-limited).
