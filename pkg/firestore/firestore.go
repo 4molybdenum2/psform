@@ -15,10 +15,10 @@ const (
 
 // Define Response type
 type Response struct {
-	Author   string
-	Address  string
-	Email    string
-	Solution string
+	Author   string `json:"author"`
+	Address  string `json:"address"`
+	Email    string `json:"email"`
+	Solution string `json:"solution"`
 }
 
 func GetFirestoreClient() (*firestore.Client, error) {

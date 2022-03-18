@@ -2,14 +2,57 @@ package service
 
 import (
 	"context"
+	"encoding/json"
 	"io/ioutil"
 	"log"
 
 	fstore "github.com/4molybdenum2/atlan-challenge/pkg/firestore"
 	"github.com/4molybdenum2/atlan-challenge/pkg/utils"
+	kafkaGo "github.com/segmentio/kafka-go"
 	"golang.org/x/oauth2/google"
 	"gopkg.in/Iwark/spreadsheet.v2"
 )
+
+type KafkaRecord struct {
+	Topic     string
+	Partition int
+	Offset    int
+	Key       string
+	Value     string
+}
+
+func Subscribe(kafkaReader *kafkaGo.Reader) {
+	log.Print("Subsciption service started...\n")
+	ctx := context.Background()
+	// The event loop
+	for {
+		m, err := kafkaReader.ReadMessage(ctx)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		var msg KafkaRecord
+		msg.Topic = m.Topic
+		msg.Partition = m.Partition
+		msg.Offset = int(m.Offset)
+		msg.Key = string(m.Key)
+		msg.Value = string(m.Value)
+
+		// fmt.Println(msg.Value)
+		var oneResponse fstore.Response
+		err = json.Unmarshal([]byte(msg.Value), &oneResponse)
+
+		if err != nil {
+			log.Printf("Can't unmarshal response, Error: %s\n", msg.Value)
+		}
+		log.Println("Message: ", msg)
+		// call export sheets response
+		ExportSheetsResponse(oneResponse)
+
+		if err != nil {
+			log.Println("Error during message writing:", err)
+		}
+	}
+}
 
 func ExportSheetsResponse(r fstore.Response) {
 	data, err := ioutil.ReadFile("sheetsAccountKey.json")

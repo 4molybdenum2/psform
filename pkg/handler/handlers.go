@@ -24,12 +24,14 @@ func CreateResponse(k *kafkaGo.Writer) http.HandlerFunc {
 
 		_, err = db.CreateResponse(&response)
 
+		jsonResponse, err := json.Marshal(response)
+
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(`{"message":"Error creating response"}`))
 		}
 		// add response to topic
-		err = kafka.AppendCommandLog(r.Context(), k, []byte(fmt.Sprintf("Client address=%s", r.RemoteAddr)), []byte(fmt.Sprintf("Author: %s, Address: %s, Email: %s, Solution: %s", response.Author, response.Address, response.Email, response.Solution)))
+		err = kafka.AppendCommandLog(r.Context(), k, []byte(fmt.Sprintf("Client address=%s", r.RemoteAddr)), jsonResponse)
 
 		// // update to sheet for now (later replace with pub/sub)
 		// service.ExportSheetsResponse(response)
