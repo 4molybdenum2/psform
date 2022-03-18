@@ -25,6 +25,7 @@ func main() {
 	r := mux.NewRouter()
 
 	// define endpoints
+
 	r.Path("/responses/get").Handler(handler.GetResponse())
 	r.Path("/responses/set").Handler(handler.CreateResponse(kafkaWriter))
 	// listen on port 5000
