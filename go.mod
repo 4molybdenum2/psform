@@ -25,4 +25,5 @@ require (
 	google.golang.org/genproto v0.0.0-20220310185008-1973136f34c6 // indirect
 	google.golang.org/grpc v1.45.0 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
+	gopkg.in/Iwark/spreadsheet.v2 v2.0.0-20220228050401-3cb9c630d9f1 // indirect
 )
