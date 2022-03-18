@@ -25,6 +25,18 @@ We can also run multiple sheets instances so that failure of one doesn't hinder 
 
 Kafka runs a message queue which receives created responses as message values. When the Google Sheets Service is online, it consumes all of the messages in the message queue and makes appropriate requests to the API server to append responses to the sheet.
 
+## Pros and Cons of Pub/Sub Architecture
+
+#### Pros:
+- **Scalabality**: Can scale well with multiple integrations/receivers.
+- **Loose Coupling** Unlike REST architecture in which if any of the services goes offline it throws an error, here services are unaware of each other which leads to better scalablity and easier modification of codebase.
+- **Works while clients are not running**: Only sending the message to the message queue matters, after that the client is not required to stay offline for other business logics in the backend.
+
+#### Cons:
+- **Message delivery issues**: We don't have an idea if message is published or not (or publising same content twice).
+- **Complexity**: Increases complexity of codebase unlike simple REST architecture.
+- **Network Saturation**: Pushing a lot of messages can overload the network, which can lead to service or system failure.
+
 ## Database Schema
 
 Over-engineering the Database can lead to increases complexity and make it harder for the project to maintain. Therefore I implemented the database in this project using Firestore. It is easy to implement and can prove to be cost effective in long term.
