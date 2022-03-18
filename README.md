@@ -17,9 +17,9 @@ This project can be divided into three major steps:
 
 At its core, this application is just a web service which accepts responses in the form of JSON and then stores it in a database and also exports it to Google Sheets as a post-business logic.
 
-The Google Sheets service is built to be loosely coupled with the web service and a highly-available and fault tolerant architecture can be created with the help of some Event-Subcription model, here implemented with the help of Kafka.
+The Google Sheets service is built to be loosely coupled with the web service and a highly-available and fault tolerant architecture can be created with the help of some Event-Subscription model, here implemented with the help of Kafka.
 
-We can also run multiple sheets instances so that failure of one doesn't hinder the functionality of our application.
+We can also run multiple Sheets instances so that failure of one doesn't hinder the functionality of our application.
 
 ## Communicating changes to subscribers
 
@@ -29,17 +29,17 @@ Kafka runs a message queue which receives created responses as message values. W
 
 #### Pros:
 - **Scalabality**: Can scale well with multiple integrations/receivers.
-- **Loose Coupling** Unlike REST architecture in which if any of the services goes offline it throws an error, here services are unaware of each other which leads to better scalablity and easier modification of codebase.
+- **Loose Coupling** Unlike REST architecture in which if any of the services goes offline it throws an error, here services are unaware of each other which leads to better scalability and easier modification of codebase.
 - **Works while clients are not running**: Only sending the message to the message queue matters, after that the client is not required to stay offline for other business logics in the backend.
 
 #### Cons:
-- **Message delivery issues**: We don't have an idea if message is published or not (or publising same content twice).
+- **Message delivery issues**: We don't have an idea if message is published or not (or publishing same content twice).
 - **Complexity**: Increases complexity of codebase unlike simple REST architecture.
 - **Network Saturation**: Pushing a lot of messages can overload the network, which can lead to service or system failure.
 
 ## Database Schema
 
-Over-engineering the Database can lead to increases complexity and make it harder for the project to maintain. Therefore I implemented the database in this project using Firestore. It is easy to implement and can prove to be cost effective in long term.
+Over-engineering the Database can lead to increased complexity and make it harder for the project to maintain. Therefore I implemented the database in this project using Firestore. It is easy to implement and can prove to be cost effective in long term.
 
 If we were to implement it using a SQL database then the database schema design would be like:
 
@@ -84,11 +84,11 @@ Few of default/custom metrics which can be helpful in our instrumentation:
 - Traffic or connections.
 - Errors.
 - Saturation.
-- Avaibility of Services and Database (Healthchecks)
+- Availability of Services and Database (Healthchecks)
 - No. of messages which were not sent by Kafka
 - No. of messages which were sent but not received
 
-Prometheus effectively uses an Alertmanager which we can use to diagonise system health and errors on custom rules.
+Prometheus effectively uses an Alertmanager which we can use to diagnose system health and errors on custom rules.
 
 ## Limitations
 
@@ -99,4 +99,4 @@ There are some limitations on the usage of Sheets API, which can hinder the perf
 
 ## Problems Faced
 
-- Currently if we restart our server, the Sheets Service reconsumes all the previous messages from the Kafka Message Queue, leading to duplicate messages in Google Sheets. This can be fixed by updating rows by matching them with a specific email address (considering only one response is allowed). But this will need us to iterate over an entire spreadsheet which can be time-consuming and also take multiple writes to Sheets. We can also clear the entire spreadsheet when we close our server instance, but that will also require multiple writes to the Google Sheets (which can be rate-limited).
+- Currently if we restart our server, the Sheets Service re-consumes all the previous messages from the Kafka Message Queue, leading to duplicate messages in Google Sheets. This can be fixed by updating rows by matching them with a specific email address (considering only one response is allowed). But this will need us to iterate over an entire spreadsheet which can be time-consuming and also take multiple writes to Sheets. We can also clear the entire spreadsheet when we close our server instance, but that will also require multiple writes to the Google Sheets (which can be rate-limited).
