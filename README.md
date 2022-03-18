@@ -51,7 +51,7 @@ Questions -> Responses (One to Many)
 
 ## Running
 
-You will need to create a Firebase Application to make a datastore for storing all the data. You will also need to enable the Sheets API and have a ```serviceAccountKey.json``` file (downloaded from GCP console) in the project repository for the Sheets API to function properly.
+You will need to create a Firebase Application to make a datastore for storing all the data. You will also need to enable the Sheets API, have a ```serviceAccountKey.json``` file (downloaded from GCP console) and ```serviceAccountFirebase.json``` file (downloaded from Firebase console) in the project repository for the code to function properly.
 
 The application requires Docker and docker-compose to run locally.
 
