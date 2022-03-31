@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 
-	fstore "github.com/4molybdenum2/atlan-challenge/pkg/firestore"
-	"github.com/4molybdenum2/atlan-challenge/pkg/utils"
+	fstore "github.com/4molybdenum2/psform/pkg/firestore"
+	"github.com/4molybdenum2/psform/pkg/utils"
 	kafkaGo "github.com/segmentio/kafka-go"
 	"golang.org/x/oauth2/google"
 	"gopkg.in/Iwark/spreadsheet.v2"
@@ -65,7 +65,7 @@ func ExportSheetsResponse(r fstore.Response) {
 	service := spreadsheet.NewServiceWithClient(client)
 
 	// fetching a spreadsheet by id
-	spreadsheetID := "1OSeighBvgvI8I6-7kk0Bh5sG9sWzf1Ra9IOesL93J90"
+	spreadsheetID := "<spreadsheet-id>"
 	spreadsheet, err := service.FetchSpreadsheet(spreadsheetID)
 	utils.CheckError(err)
 

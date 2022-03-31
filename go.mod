@@ -1,4 +1,4 @@
-module github.com/4molybdenum2/atlan-challenge
+module github.com/4molybdenum2/psform
 
 go 1.17
 

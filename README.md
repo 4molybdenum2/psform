@@ -1,4 +1,4 @@
-# Atlan Challenge : Google Sheets Plugin
+# PS-Form : Google Sheets Plugin
 
 A simple web service which shows the implementation of a data collection and exporting feature using Go and Kafka with a Pub/Sub Architechture. The application was designed to show a demo of how a **failsafe**, **highly-available**, **pluggable interface** can be created to complement the backend of a large infrastructure.
 

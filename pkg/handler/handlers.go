@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	db "github.com/4molybdenum2/atlan-challenge/pkg/firestore"
-	"github.com/4molybdenum2/atlan-challenge/pkg/kafka"
+	db "github.com/4molybdenum2/psform/pkg/firestore"
+	"github.com/4molybdenum2/psform/pkg/kafka"
 	kafkaGo "github.com/segmentio/kafka-go"
 )
 

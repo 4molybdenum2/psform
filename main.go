@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/4molybdenum2/atlan-challenge/pkg/handler"
-	"github.com/4molybdenum2/atlan-challenge/pkg/kafka"
-	service "github.com/4molybdenum2/atlan-challenge/service/sheets"
+	"github.com/4molybdenum2/psform/pkg/handler"
+	"github.com/4molybdenum2/psform/pkg/kafka"
+	service "github.com/4molybdenum2/psform/service/sheets"
 	"github.com/gorilla/mux"
 )
 
